@@ -1,0 +1,38 @@
+from collections import defaultdict
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+
+        hashMap = defaultdict(list)
+        for course, pre in prerequisites:
+            hashMap[course].append(pre)
+
+        visited = set()
+
+        def dfs(course):
+
+            if course in visited:
+                return False
+
+            if hashMap[course] == []:
+                return True
+
+            visited.add(course)
+
+            for pre in hashMap[course]:
+                if not dfs(pre):
+                    return False
+
+            visited.remove(course)
+            hashMap[course] = []
+            return True
+
+        for i in range(numCourses):
+            if not dfs(i):
+                return False
+                
+        return True
+
+
+
+
+        
